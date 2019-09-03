@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 
 import IngredientForm from './IngredientForm';
@@ -9,6 +9,14 @@ const Ingredients = React.memo(props => {
 
   const [userIndgredients, setUserIngredients] = useState([]);
 
+  useEffect(() => {
+    console.log('RENDERING userIndgredients', userIndgredients)
+  }, [userIndgredients])
+
+  const onFilteredIngredients = useCallback(ingredients => {
+    setUserIngredients(ingredients)
+  }, [])
+
   const addIndgrededientHandler = ingredient => {
     fetch('https://react-hooks-course-bfa7c.firebaseio.com/ingredients.json', 
     {
@@ -18,7 +26,6 @@ const Ingredients = React.memo(props => {
     })
     .then(response => response.json())
     .then(responseData => {
-      console.log(responseData.name)
       setUserIngredients(prevIngredients => [...prevIngredients, 
         {
            id: responseData.name,
@@ -39,7 +46,7 @@ const Ingredients = React.memo(props => {
       />
 
       <section>
-        <Search />
+        <Search setIngredients={onFilteredIngredients}/>
         <IngredientList
           ingredients={userIndgredients}
           onRemoveItem={removeIndgrededientHandler}
