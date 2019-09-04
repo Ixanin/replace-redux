@@ -4,10 +4,14 @@ import React, { useState, useEffect, useCallback } from 'react';
 import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList';
+import { WithLoading } from '../UI/WithLoading';
+
+const ListWithLoading = WithLoading(IngredientList);
 
 const Ingredients = React.memo(props => {
 
   const [userIndgredients, setUserIngredients] = useState([]);
+  const [ isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     console.log('RENDERING userIndgredients', userIndgredients)
@@ -18,6 +22,7 @@ const Ingredients = React.memo(props => {
   }, [])
 
   const addIndgrededientHandler = ingredient => {
+    setLoading(true);
     fetch('https://react-hooks-course-bfa7c.firebaseio.com/ingredients.json', 
     {
       method: 'POST',
@@ -26,6 +31,7 @@ const Ingredients = React.memo(props => {
     })
     .then(response => response.json())
     .then(responseData => {
+      setLoading(false);
       setUserIngredients(prevIngredients => [...prevIngredients, 
         {
            id: responseData.name,
@@ -35,8 +41,16 @@ const Ingredients = React.memo(props => {
   }
 
   const removeIndgrededientHandler = id => {
-    setUserIngredients(prevIngredients => 
-      prevIngredients.filter(ingredient => ingredient.id !== id))
+    setLoading(true);
+    fetch(`https://react-hooks-course-bfa7c.firebaseio.com/ingredients/${id}.json`, 
+    {
+      method: 'DELETE',
+    })
+    .then(responseData => {
+      setLoading(false);
+      setUserIngredients(prevIngredients => 
+        prevIngredients.filter(ingredient => ingredient.id !== id))
+    })
   }
 
   return (
@@ -47,7 +61,8 @@ const Ingredients = React.memo(props => {
 
       <section>
         <Search setIngredients={onFilteredIngredients}/>
-        <IngredientList
+        <ListWithLoading
+          isLoading={true}
           ingredients={userIndgredients}
           onRemoveItem={removeIndgrededientHandler}
         />
