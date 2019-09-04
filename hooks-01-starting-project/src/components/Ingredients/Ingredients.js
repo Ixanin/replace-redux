@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect, useCallback } from "react";
+import React, { useReducer, useEffect, useCallback } from "react";
 
 import IngredientForm from "./IngredientForm";
 import Search from "./Search";
@@ -9,92 +9,108 @@ import { WithLoading } from "../UI/WithLoading";
 const ListWithLoading = WithLoading(IngredientList);
 
 const Ingredients = React.memo(props => {
-  const ingredientReducer = (currentIngridients, action) => {
-    switch (action.type) {
-      case "SET":
-        return action.ingredients;
-      case "ADD":
-        return [...currentIngridients, action.ingredient];
-      case "DELETE":
-        return currentIngridients.filter(
-          ingredient => ingredient.id !== action.id
-        );
-      default:
-        throw new console.error("Should not get there");
-    }
-  };
+    const ingredientReducer = (currentIngridients, action) => {
+        switch (action.type) {
+            case "SET":
+                return action.ingredients;
+            case "ADD":
+                return [...currentIngridients, action.ingredient];
+            case "DELETE":
+                return currentIngridients.filter(
+                    ingredient => ingredient.id !== action.id
+                );
+            default:
+                throw new console.error("Should not get there");
+        }
+    };
 
-  const [userIndgredients, dispatch] = useReducer(ingredientReducer, []);
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState();
+    const httpReducer = (currHttpState, action) => {
+        switch (action.type) {
+            case "SEND":
+                return { isLoading: true, error: undefined };
+            case "RESPONSE":
+                return { isLoading: false, ...currHttpState };
+            case "ERROR":
+                return { isLoading: false, error: action.message };
+            default:
+                throw new console.error("Should not get there");
+        }
+    };
 
-  useEffect(() => {
-    console.log("RENDERING userIndgredients", userIndgredients);
-  }, [userIndgredients]);
+    const [httpState, dispatchHttp] = useReducer(httpReducer, {
+        isLoading: false,
+        error: undefined
+    });
+    const [userIndgredients, dispatch] = useReducer(ingredientReducer, []);
 
-  const onFilteredIngredients = useCallback(ingredients => {
-    setLoading(false);
-    dispatch({ type: "SET", ingredients });
-  }, []);
+    useEffect(() => {
+        console.log("RENDERING userIndgredients", userIndgredients);
+    }, [userIndgredients]);
 
-  const addIndgrededientHandler = ingredient => {
-    setLoading(true);
-    fetch("https://react-hooks-course-bfa7c.firebaseio.com/ingredients.json", {
-      method: "POST",
-      body: JSON.stringify(ingredient),
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(response => response.json())
-      .then(responseData => {
-        setLoading(false);
+    const onFilteredIngredients = useCallback(ingredients => {
+        dispatchHttp({ type: "RESPONSE" });
+        dispatch({ type: "SET", ingredients });
+    }, []);
 
-        dispatch({
-          type: "ADD",
-          ingredient: {
-            id: responseData.name,
-            ...ingredient
-          }
-        });
-      });
-  };
+    const addIndgrededientHandler = ingredient => {
+        dispatchHttp({ type: "SEND" });
+        fetch("https://react-hooks-course-bfa7c.firebaseio.com/ingredients.json", {
+            method: "POST",
+            body: JSON.stringify(ingredient),
+            headers: { "Content-Type": "application/json" }
+        })
+            .then(response => response.json())
+            .then(responseData => {
+                dispatch({ type: "RESPONSE" });
 
-  const removeIndgrededientHandler = id => {
-    setLoading(true);
-    fetch(
-      `https://react-hooks-course-bfa7c.firebaseio.com/ingredients/${id}.json`,
-      {
-        method: "DELETE"
-      }
-    )
-      .then(responseData => {
-        setLoading(false);
-        dispatch({type: 'DELETE', id})
-      })
-      .catch(error => {
-        setError(error.message);
-        setLoading(false);
-      });
-  };
+                dispatch({
+                    type: "ADD",
+                    ingredient: {
+                        id: responseData.name,
+                        ...ingredient
+                    }
+                });
+            });
+    };
 
-  const onModalClose = () => {
-    setError(undefined);
-  };
+    const removeIndgrededientHandler = id => {
+        dispatchHttp({ type: "SEND" });
+        fetch(
+            `https://react-hooks-course-bfa7c.firebaseio.com/ingredients/${id}.json`,
+            {
+                method: "DELETE"
+            }
+        )
+            .then(responseData => {
+                dispatchHttp({ type: "RESPONSE" });
+                dispatch({ type: "DELETE", id });
+            })
+            .catch(error => {
+                dispatchHttp({ type: "ERROR", message: error.message });
+            });
+    };
 
-  return (
-    <div className="App">
-      {error && <ErrorModal onClose={onModalClose}>{error}</ErrorModal>}
-      <IngredientForm onSubmit={addIndgrededientHandler} />
+    const onModalClose = () => {
+        dispatchHttp({ type: "RESPONSE" });
+    };
 
-      <section>
-        <Search setIngredients={onFilteredIngredients} />
-        <ListWithLoading
-          isLoading={isLoading}
-          ingredients={userIndgredients}
-          onRemoveItem={removeIndgrededientHandler}
-        />
-      </section>
-    </div>
-  );
+    return (
+        <div className="App">
+            {httpState.error && (
+                <ErrorModal onClose={onModalClose}>{httpState.error}</ErrorModal>
+            )}
+            <IngredientForm onSubmit={addIndgrededientHandler} />
+
+            <section>
+                <Search setIngredients={onFilteredIngredients} />
+                <ListWithLoading
+                    isLoading={httpState.isLoading}
+                    ingredients={userIndgredients}
+                    onRemoveItem={removeIndgrededientHandler}
+                />
+            </section>
+        </div>
+    );
 });
 
 export default Ingredients;
