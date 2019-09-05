@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useCallback } from "react";
+import React, { useReducer, useEffect, useCallback, useMemo } from "react";
 
 import IngredientForm from "./IngredientForm";
 import Search from "./Search";
@@ -9,6 +9,8 @@ import { WithLoading } from "../UI/WithLoading";
 const ListWithLoading = WithLoading(IngredientList);
 
 const Ingredients = React.memo(props => {
+
+    console.log('RENDER !!!')
     const ingredientReducer = (currentIngridients, action) => {
         switch (action.type) {
             case "SET":
@@ -29,7 +31,9 @@ const Ingredients = React.memo(props => {
             case "SEND":
                 return { isLoading: true, error: undefined };
             case "RESPONSE":
-                return { isLoading: false, ...currHttpState };
+                return { ...currHttpState, isLoading: false };
+            case "CLEAR":
+                return { ...currHttpState, error: undefined };
             case "ERROR":
                 return { isLoading: false, error: action.message };
             default:
@@ -48,11 +52,11 @@ const Ingredients = React.memo(props => {
     }, [userIndgredients]);
 
     const onFilteredIngredients = useCallback(ingredients => {
-        dispatchHttp({ type: "RESPONSE" });
+        // dispatchHttp({ type: "SEND" });
         dispatch({ type: "SET", ingredients });
     }, []);
 
-    const addIndgrededientHandler = ingredient => {
+    const addIndgrededientHandler = useCallback(ingredient => {
         dispatchHttp({ type: "SEND" });
         fetch("https://react-hooks-course-bfa7c.firebaseio.com/ingredients.json", {
             method: "POST",
@@ -61,7 +65,7 @@ const Ingredients = React.memo(props => {
         })
             .then(response => response.json())
             .then(responseData => {
-                dispatch({ type: "RESPONSE" });
+                dispatchHttp({ type: "RESPONSE" });
 
                 dispatch({
                     type: "ADD",
@@ -70,10 +74,13 @@ const Ingredients = React.memo(props => {
                         ...ingredient
                     }
                 });
+            })
+            .catch(error => {
+                dispatchHttp({ type: "ERROR", message: error.message });
             });
-    };
+    }, []);
 
-    const removeIndgrededientHandler = id => {
+    const removeIndgrededientHandler = useCallback(id => {
         dispatchHttp({ type: "SEND" });
         fetch(
             `https://react-hooks-course-bfa7c.firebaseio.com/ingredients/${id}.json`,
@@ -88,11 +95,19 @@ const Ingredients = React.memo(props => {
             .catch(error => {
                 dispatchHttp({ type: "ERROR", message: error.message });
             });
-    };
+    }, []);
 
-    const onModalClose = () => {
-        dispatchHttp({ type: "RESPONSE" });
-    };
+    const onModalClose = useCallback(() => {
+        dispatchHttp({ type: "CLEAR" });
+    }, []);
+
+    const listWithLoading = useMemo(() => {
+        return (<ListWithLoading
+            isLoading={httpState.isLoading}
+            ingredients={userIndgredients}
+            onRemoveItem={removeIndgrededientHandler}
+         />)
+    }, [userIndgredients, removeIndgrededientHandler])
 
     return (
         <div className="App">
@@ -103,11 +118,7 @@ const Ingredients = React.memo(props => {
 
             <section>
                 <Search setIngredients={onFilteredIngredients} />
-                <ListWithLoading
-                    isLoading={httpState.isLoading}
-                    ingredients={userIndgredients}
-                    onRemoveItem={removeIndgrededientHandler}
-                />
+                { listWithLoading }
             </section>
         </div>
     );
