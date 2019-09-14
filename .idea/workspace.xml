@@ -125,7 +125,7 @@
     <option name="height" value="1087" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -138,72 +138,7 @@
       <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
-      <pane id="AndroidView" />
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="udemy-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="udemy-react" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="udemy-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="udemy-react" type="462c0819:PsiDirectoryNode" />
-              <item name="redux-adv--01-start" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="udemy-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="udemy-react" type="462c0819:PsiDirectoryNode" />
-              <item name="redux-adv--01-start" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="udemy-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="udemy-react" type="462c0819:PsiDirectoryNode" />
-              <item name="redux-adv--01-start" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="udemy-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="udemy-react" type="462c0819:PsiDirectoryNode" />
-              <item name="redux-adv--01-start" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="Counter" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="udemy-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="udemy-react" type="462c0819:PsiDirectoryNode" />
-              <item name="redux-adv--01-start" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="store" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="udemy-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="udemy-react" type="462c0819:PsiDirectoryNode" />
-              <item name="redux-adv--01-start" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="store" type="462c0819:PsiDirectoryNode" />
-              <item name="actions" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="udemy-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="udemy-react" type="462c0819:PsiDirectoryNode" />
-              <item name="redux-adv--01-start" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="store" type="462c0819:PsiDirectoryNode" />
-              <item name="reducers" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
@@ -331,6 +266,7 @@
       <workItem from="1566925457148" duration="597000" />
       <workItem from="1567435974034" duration="1672000" />
       <workItem from="1567446465790" duration="3000" />
+      <workItem from="1567928869818" duration="655000" />
     </task>
     <task id="LOCAL-00001" summary="adv">
       <created>1563302228769</created>
@@ -350,7 +286,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12193000" />
+    <option name="totallyTimeSpent" value="12848000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="960" y="0" width="967" height="1087" extended-state="0" />
@@ -427,6 +363,48 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/redux-adv--01-start/src/containers/Counter/Counter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="760">
+          <caret line="38" column="67" lean-forward="false" selection-start-line="38" selection-start-column="58" selection-end-line="38" selection-end-column="67" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/redux-adv--01-start/src/store/actions/actions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/redux-adv--01-start/src/store/reducers/counter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="22" column="15" lean-forward="false" selection-start-line="22" selection-start-column="15" selection-end-line="22" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/redux-adv--01-start/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="4" column="12" lean-forward="false" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/redux-adv--01-start/src/store/reducers/result.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/redux-adv--01-start/src/containers/Counter/Counter.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="760">
